@@ -38,12 +38,11 @@ app.post("/removetask", function(req, res) {
     res.redirect("/");
 });
 
-//render the ejs and display added task, completed task
+//render the ejs and display added task and completed task
 app.get("/", function(req, res) {
     res.render("index", { task: task, complete: complete });
 });
 
-//set app to listen on port 3000
-app.listen(3000, function() {
-    console.log("server is running on port 3000");
+app.listen(5000, function() {
+    console.log("----------Server is running on port 5000.----------");
 });
