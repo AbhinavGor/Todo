@@ -5,13 +5,14 @@ var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+
 //render css files
 app.use(express.static("public"));
 
 //placeholders for added task
 var task = [];
 //placeholders for removed task
-var complete = ["finish jquery"];
+var complete = [];
 
 //post route for adding new task 
 app.post("/addtask", function(req, res) {
