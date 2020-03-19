@@ -53,6 +53,45 @@ app.use(function(req, res, next) {
   next();
 });
 
+//ToDo
+//render css files
+app.use(express.static("public"));
+
+//placeholders for added task
+var task = [];
+//placeholders for removed task
+var complete = [];
+
+//post route for adding new task 
+app.post("/dashboard/addtask", function(req, res) {
+    var newTask = req.body.newtask;
+    //add the new task from the post route
+    task.push(newTask);
+    res.redirect("/");
+});
+
+app.post("/dashboard/removetask", function(req, res) {
+    var completeTask = req.body.check;
+    //check for the "typeof" the different completed task, then add into the complete task
+    if (typeof completeTask === "string") {
+        complete.push(completeTask);
+        //check if the completed task already exits in the task when checked, then remove it
+        task.splice(task.indexOf(completeTask), 1);
+    } else if (typeof completeTask === "object") {
+        for (var i = 0; i < completeTask.length; i++) {
+            complete.push(completeTask[i]);
+            task.splice(task.indexOf(completeTask[i]), 1);
+        }
+    }
+    res.redirect("/dashboard");
+});
+
+//render the ejs and display added task and completed task
+app.get("/dashboard", function(req, res) {
+    res.render("dashboard", { task: task,user: req.user, complete: complete });
+});
+
+
 // Routes
 app.use('/', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
